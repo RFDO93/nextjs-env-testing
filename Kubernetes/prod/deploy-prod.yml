@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forus-go-front
+  namespace: dev
+  labels:
+    app: forus-go-front
+    env: prod
+    part-of: woodstock
+    tier: frontend
+    owner: ForusApp
+    release: '1.0'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forus-go-front
+  template:
+    metadata:
+      labels:
+        app: forus-go-front
+        env: prod
+        part-of: woodstock
+        tier: frontend
+        owner: ForusApp
+        release: '1.0'
+    spec:
+      containers:
+        - name: forus-go-front
+          image: 080621519835.dkr.ecr.us-east-1.amazonaws.com/forus/woodstock/forus-go-front:stable
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forus-go-front-svc
+  namespace: dev
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app: forus-go-front

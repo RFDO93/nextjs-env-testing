@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: forus-go-front-ingress
+  labels:
+    app: forus-go
+    env: test
+    part-of: woodstock
+    tier: frontend
+    owner: ForusApp
+    release: '1.0'
+  namespace: test
+spec:
+  rules:
+  - host: a78cd5d321fef4762a4c885a60a99299-77308d69957eb4e8.elb.us-east-1.amazonaws.com
+    http:
+      paths:
+      - path: /forus-go(/|$)(.*)
+        backend:
+          serviceName: forus-go-front-svc
+          servicePort: 3000
+

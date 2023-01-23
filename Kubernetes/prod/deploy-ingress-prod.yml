@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx-dev
+  name: forus-go-front-ingress
+  labels:
+    app: forus-go
+    env: test
+    part-of: woodstock
+    tier: frontend
+    owner: ForusApp
+    release: '1.0'
+  namespace: dev
+spec:
+  tls:
+    - hosts:
+        - forus-go.backoffice-dev.forus-sistemas.biz
+      secretName: forus-go-dev-ingress-crt
+  rules:
+    - host: forus-go.backoffice-dev.forus-sistemas.biz
+      http:
+        paths:
+          - path: /forus-go(/|$)(.*)
+            backend:
+              serviceName: forus-go-front-svc
+              servicePort: 3000
