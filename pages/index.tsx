@@ -13,6 +13,8 @@ const Index: NextPage = () => {
   return (
     <div className="w-full h-screen flex flex-col">
 
+      <h1>Prueba Numero 1</h1>
+
       <pre>
         {JSON.stringify({
           sitekey,
